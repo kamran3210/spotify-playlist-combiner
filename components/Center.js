@@ -1,5 +1,6 @@
-import { useSession } from "next-auth/react"
+import { useSession } from "next-auth/react";
 import { signIn } from "next-auth/react";
+import { Image } from "next/image";
 
 function Center() {
   const { data: session, status } = useSession();
@@ -56,6 +57,7 @@ function Center() {
         </p>
         <button className="flex p-4 items-center text-4xl rounded-full outline-none ring-2 ring-white hover:ring-gray-200 text-white hover:text-gray-200"
           onClick={() => signIn("spotify", {callbackUrl: "/"})}>
+          <img src="images/spotify.svg" className="w-8"/>
           <p className='pl-2 pr-2 text-2xl font-medium'>
             Login with Spotify
           </p>

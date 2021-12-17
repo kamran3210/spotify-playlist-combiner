@@ -106,9 +106,10 @@ function Topbar() {
                     </Transition>
                   </Menu>
                 ) : (
-                  <button className="flex h-8 items-center text-sm rounded-full outline-none ring-2 ring-white hover:ring-gray-200 text-white hover:text-gray-200"
+                  <button className="flex px-2 h-8 items-center text-sm rounded-full outline-none ring-2 ring-white hover:ring-gray-200 text-white hover:text-gray-200"
                     onClick={() => signIn("spotify", {callbackUrl: "/"})}>
-                    <p className='pl-2 pr-2 text-sm font-medium'>
+                    <img src="images/spotify.svg"/>
+                    <p className='pl-2 text-sm font-medium'>
                       Login with Spotify
                     </p>
                   </button>
