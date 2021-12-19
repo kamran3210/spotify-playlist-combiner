@@ -17,7 +17,7 @@ function Topbar() {
   const { data: session, status } = useSession();
 
   return (
-    <Disclosure as="nav" className="shadow-lg">
+    <Disclosure as="nav" className="shadow-lg text-white">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -33,28 +33,30 @@ function Topbar() {
                   )}
                 </Disclosure.Button>
               </div>
+
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
                   {/* Temporary */}
                   <img
                     className="block lg:hidden h-8 w-auto"
-                    src="http://www.playlistmerger.com/assets/img/logo/logo2.svg" 
+                    src="images/logo.svg" 
                     alt="Playlist Merger"
                   />
                   {/* Temporary */}
                   <img
                     className="hidden lg:block h-8 w-auto"
-                    src="http://www.playlistmerger.com/assets/img/logo/logo2.svg"
+                    src="images/logo-title.svg"
                     alt="Playlist Merger"
                   />
                 </div>
+
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
                       <a
                         key={item.name}
                         href={item.href}
-                        className='text-white hover:text-gray-200 hover:shadow-inner
+                        className='hover:text-gray-200 hover:shadow-inner
                           px-3 py-2 rounded-md text-sm font-medium'
                         aria-current={item.current ? 'page' : undefined}
                       >
@@ -64,13 +66,12 @@ function Topbar() {
                   </div>
                 </div>
               </div>
+
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-
-
                 {session ? (
                   <Menu as="div" className="ml-3 relative">
                     <div>
-                      <Menu.Button className="flex items-center text-sm rounded-full outline-none ring-2 ring-white hover:ring-gray-200 text-white hover:text-gray-200">
+                      <Menu.Button className="flex items-center text-sm rounded-full outline-none ring-2 ring-white hover:ring-gray-200 hover:text-gray-200">
                         <span className="sr-only">Open user menu</span>
                         <p className='pl-2 pr-2 text-sm font-medium'>
                           {session?.user.name}
@@ -106,9 +107,10 @@ function Topbar() {
                     </Transition>
                   </Menu>
                 ) : (
-                  <button className="flex h-8 items-center text-sm rounded-full outline-none ring-2 ring-white hover:ring-gray-200 text-white hover:text-gray-200"
+                  <button className="flex px-2 h-8 items-center text-sm rounded-full outline-none ring-2 ring-white hover:ring-gray-200 hover:text-gray-200"
                     onClick={() => signIn("spotify", {callbackUrl: "/"})}>
-                    <p className='pl-2 pr-2 text-sm font-medium'>
+                    <img src="images/spotify.svg"/>
+                    <p className='pl-2 text-sm font-medium'>
                       Login with Spotify
                     </p>
                   </button>
@@ -127,7 +129,7 @@ function Topbar() {
                   key={item.name}
                   as="a"
                   href={item.href}
-                  className='text-white hover:shadow-inner hover:text-white block
+                  className='hover:shadow-inner hover:text-white block
                     px-3 py-2 rounded-md text-base font-medium'
                   aria-current={item.current ? 'page' : undefined}
                 >
