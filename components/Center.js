@@ -11,7 +11,10 @@ function Center() {
         return (
             <div className="flex flex-row p-5 items-center justify-center w-full min-h-[80vh] text-white">
 
+                <div className="w-full sm:w-1/3">
+                    <h1>Select playlists:</h1>
                     <PlaylistLibrary className="w-full"/>
+                </div>
                 
             </div>
         );

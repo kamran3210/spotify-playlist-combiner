@@ -10,23 +10,20 @@ function PlaylistLibrary() {
     // Get playlists and store as state
     const [playlists, setPlaylists] = useState([]);
     const [playlistsTotal, setPlaylistsTotal] = useState();
-    useEffect(() => {
-        if (spotifyApi.getAccessToken()) {
-            spotifyApi.getUserPlaylists({ limit: 10 }).then((data) => {
-                setPlaylists(data.body.items);
-                setPlaylistsTotal(data.body.total);
-            });
-        }
-    }, [session, spotifyApi]);
-
     // When page is changed, update playlists
     const [page, setPage] = useState(0);
     useEffect(() => {
+        console.log("USE EFFECT")
         if (spotifyApi.getAccessToken()) {
-            spotifyApi.getUserPlaylists({ limit: 10, offset: 10 * page }).then((data) => {
-                setPlaylists(data.body.items);
-                setPlaylistsTotal(data.body.total);
-            });
+            try {
+                spotifyApi.getUserPlaylists({ limit: 10, offset: 10 * page }).then((data) => {
+                    setPlaylists(data.body.items);
+                    setPlaylistsTotal(data.body.total);
+                });
+            } catch (error) {
+                console.log(error)
+                setPage(0);
+            }
         }
     }, [session, spotifyApi, page]);
 
@@ -59,7 +56,7 @@ function PlaylistLibrary() {
 
 
     return (
-        <div className="w-1/3">
+        <div className="w-full">
             {/* List of playlists */}
             <div className="bg-gray-800 rounded-lg shadow-lg w-full mb-2">
                 <ul className="divide-y-2 divide-gray-100">
@@ -83,6 +80,10 @@ function PlaylistLibrary() {
                         <button className="p-1" onClick={() => setPage(page-1)} disabled={!isPrevPage()}>
                             <ChevronLeftIcon className="w-full h-full"/>
                         </button>
+                    </div>
+                    {/* Page number */}
+                    <div className="px-3 flex items-center justify-center">
+                        <p>{page+1}</p>
                     </div>
                     {/* Right arrow */}
                     <div className={"w-10 ".concat(isNextPage() ? "hover:bg-blue-600 hover:text-blue-200" : "bg-gray-600")}>
