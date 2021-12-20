@@ -1,14 +1,13 @@
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { pageState } from "../../atoms/pageAtom";
 import { playlistsTotalState } from "../../atoms/playlistsTotalAtom";
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline'
+import { perPage } from "./PlaylistLibrary";
 
 function PageButtons() {
-    // Amount of playlists to display per page
-    const perPage = 10;
 
-    // Store playlists, # of playlists, page number as state
-    const [playlistsTotal, setPlaylistsTotal] = useRecoilState(playlistsTotalState);
+    // Store # of playlists, page number as state
+    const playlistsTotal = useRecoilValue(playlistsTotalState);
     const [page, setPage] = useRecoilState(pageState);
 
     function isNextPage() {

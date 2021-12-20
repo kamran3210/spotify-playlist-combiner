@@ -1,22 +1,23 @@
 import { useSession } from "next-auth/react";
 import useSpotify from "../../hooks/useSpotify";
 import { useEffect, useState } from "react"
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { selectedPlaylistsState } from "../../atoms/selectedPlaylistsAtom";
 import { playlistsTotalState } from "../../atoms/playlistsTotalAtom";
 import { pageState } from "../../atoms/pageAtom";
+
+// Amount of playlists to display per page
+const perPage = 10;
 
 function PlaylistLibrary() {
     const spotifyApi = useSpotify();
     const { data: session, status } = useSession();
 
-    // Amount of playlists to display per page
-    const perPage = 10;
-
     // Store playlists, # of playlists, page number as state
     const [playlists, setPlaylists] = useState([]);
-    const [playlistsTotal, setPlaylistsTotal] = useRecoilState(playlistsTotalState); // Global state
+    const setPlaylistsTotal = useSetRecoilState(playlistsTotalState); // Global state
     const [page, setPage] = useRecoilState(pageState); // Global state
+
     // When page is changed, update playlists
     useEffect(() => {
         if (spotifyApi.getAccessToken()) {
@@ -58,7 +59,7 @@ function PlaylistLibrary() {
                 <ul className="divide-y-2 divide-gray-100">
                     {playlists.map((playlist) => (
                         <li key={playlist.id}>
-                            <div className={"p-3 hover:bg-blue-600 hover:text-blue-200 cursor-pointer ".concat(isSelected(playlist) ? "bg-blue-600" : "")}
+                            <div className={"p-3 hover:bg-blue-600 cursor-pointer ".concat(isSelected(playlist) ? "bg-blue-600" : "hover:text-blue-200")}
                                 onClick={() => togglePlaylist(playlist)}>
                                 <p className="truncate text-base">
                                     {playlist.name}&nbsp;
@@ -72,4 +73,6 @@ function PlaylistLibrary() {
     )
 }
 
-export default PlaylistLibrary
+export default PlaylistLibrary;
+
+export { perPage };
