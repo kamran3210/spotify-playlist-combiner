@@ -5,6 +5,7 @@ import SelectedPlaylists from "./centercomponents/SelectedPlaylists";
 import PageButtons from "./centercomponents/PageButtons";
 import ActionButtons from "./centercomponents/ActionButtons";
 import PlaylistTextInput from "./centercomponents/PlaylistTextInput";
+import Popper from "./centercomponents/Popper";
 
 function Center() {
     const { data: session, status } = useSession();
@@ -28,11 +29,11 @@ function Center() {
                             </h1>
                         </div>
                         <div className="flex mb-2 ">
-                            <PlaylistLibrary />
+                            <PlaylistLibrary perPage={10} />
                             
                         </div>
                         <div className="flex justify-end">
-                            <PageButtons />
+                            <PageButtons perPage={10}/>
                         </div>
                     </div>
 
@@ -43,8 +44,8 @@ function Center() {
                                 Selected playlists:
                             </h1>
                         </div>
-                        <div className="mb-2 p-1 rounded-lg border border-white flex-1">
-                            <SelectedPlaylists />
+                        <div className="mb-2 rounded-lg border border-white flex-1">
+                            <SelectedPlaylists perPage={10} />
                         </div>
                         <div className="flex w-full justify-end">
                             <PlaylistTextInput />
@@ -52,6 +53,7 @@ function Center() {
                     </div>
                 </div>
 
+                <Popper />
                 
             </div>
         );
