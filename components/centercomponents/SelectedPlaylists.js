@@ -2,7 +2,9 @@ import { XIcon } from "@heroicons/react/outline";
 import { useRecoilState } from "recoil"
 import { selectedPlaylistsState } from "../../atoms/selectedPlaylistsAtom";
 
-function SelectedPlaylists() {
+function SelectedPlaylists({ perPage }) {
+    const libraryHeight = 3.125 * perPage - 0.125;
+
     const [selectedPlaylists, setSelectedPlaylists] = useRecoilState(selectedPlaylistsState);
     function removePlaylist(playlist) {
         let newSelectedPlaylists;
@@ -11,12 +13,12 @@ function SelectedPlaylists() {
     }
 
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 content-start h-full">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-1 content-start overflow-y-auto p-1" style={{height: `${libraryHeight}rem`}}>
             {selectedPlaylists.map((playlist) => (
-                <div className="flex flex-row bg-blue-600 px-2 py-1 w-full my-1 rounded-full"
+                <div className="flex flex-row bg-blue-600 px-2 py-1 w-full rounded-full"
                     key={playlist.id}>
-                    <p className="truncate w-4/5 text-lg text-center">
-                        {playlist.name}
+                    <p className="truncate w-5/6 text-lg text-center">
+                        {playlist.name}&nbsp; {/* Hacky way to give an otherwise empty p tag some line height */}
                     </p>
                     <button className="w-4 ml-2" onClick={() => removePlaylist(playlist)}>
                         <XIcon className="w-full"/>

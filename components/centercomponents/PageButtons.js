@@ -2,9 +2,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { pageState } from "../../atoms/pageAtom";
 import { playlistsTotalState } from "../../atoms/playlistsTotalAtom";
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline'
-import { perPage } from "./PlaylistLibrary";
 
-function PageButtons() {
+function PageButtons({ perPage }) {
 
     // Store # of playlists, page number as state
     const playlistsTotal = useRecoilValue(playlistsTotalState);

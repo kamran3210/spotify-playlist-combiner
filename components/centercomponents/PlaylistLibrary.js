@@ -6,10 +6,9 @@ import { selectedPlaylistsState } from "../../atoms/selectedPlaylistsAtom";
 import { playlistsTotalState } from "../../atoms/playlistsTotalAtom";
 import { pageState } from "../../atoms/pageAtom";
 
-// Amount of playlists to display per page
-const perPage = 10;
+function PlaylistLibrary({ perPage }) {
+    const libraryHeight = 3.125 * perPage - 0.125;
 
-function PlaylistLibrary() {
     const spotifyApi = useSpotify();
     const { data: session, status } = useSession();
 
@@ -53,26 +52,22 @@ function PlaylistLibrary() {
     }
 
     return (
-        <div className="w-full">
-            {/* List of playlists */}
-            <div className="bg-gray-800 rounded-lg shadow-lg w-full">
+            // List of playlists
+            <div className="bg-gray-800 rounded-lg shadow-lg w-full" style={{height: `${libraryHeight}rem`}}>
                 <ul className="divide-y-2 divide-gray-100">
                     {playlists.map((playlist) => (
                         <li key={playlist.id}>
-                            <div className={"p-3 hover:bg-blue-600 cursor-pointer ".concat(isSelected(playlist) ? "bg-blue-600" : "hover:text-blue-200")}
+                            <div className={`p-3 hover:bg-blue-600 cursor-pointer ${isSelected(playlist) ? "bg-blue-600" : "hover:text-blue-200"}`}
                                 onClick={() => togglePlaylist(playlist)}>
                                 <p className="truncate text-base">
-                                    {playlist.name}&nbsp;
+                                    {playlist.name}&nbsp; {/* Hacky way to give an otherwise empty p tag some line height */}
                                 </p>
                             </div>
                         </li>
                     ))}
                 </ul>
             </div>
-        </div>
     )
 }
 
 export default PlaylistLibrary;
-
-export { perPage };
