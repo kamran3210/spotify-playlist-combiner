@@ -1,6 +1,5 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { pageState } from "../../atoms/pageAtom";
-import { playlistsTotalState } from "../../atoms/playlistsTotalAtom";
+import { pageState, playlistsTotalState } from "../../atoms/playlistsAtom";
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline'
 
 function PageButtons({ perPage }) {
@@ -9,10 +8,11 @@ function PageButtons({ perPage }) {
     const playlistsTotal = useRecoilValue(playlistsTotalState);
     const [page, setPage] = useRecoilState(pageState);
 
+    // Check if the next page exists
     function isNextPage() {
         return (page + 1) * perPage < playlistsTotal;
     }
-
+    // Check if the previous page exists
     function isPrevPage() {
         return page > 0;
     }

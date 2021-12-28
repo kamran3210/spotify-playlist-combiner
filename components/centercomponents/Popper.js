@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { usePopper } from 'react-popper';
 import { useRecoilState } from 'recoil';
-import { selectedActionState } from '../../atoms/selectedActionAtom';
+import { selectedActionState } from '../../atoms/playlistsAtom';
 
 function Popper({ text, state, tooltip }) {
     const refEl= useRef();

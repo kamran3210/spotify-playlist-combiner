@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { selectedPlaylistsState } from "../../atoms/selectedPlaylistsAtom";
+import { playlistsCacheState, selectedPlaylistsState } from "../../atoms/playlistsAtom";
 import useSpotify from "../../hooks/useSpotify";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
@@ -9,14 +9,17 @@ function PlaylistTextInput() {
     const spotifyApi = useSpotify();
     const { data: session, status } = useSession();
 
+    const [playlistsCache, setPlaylistsCache] = useRecoilState(playlistsCacheState);
     const [selectedPlaylists, setSelectedPlaylists] = useRecoilState(selectedPlaylistsState);
     function addToSelectedPlaylists(playlist) {
+        // Update cache
+        let newCache = {...playlistsCache};
+        newCache[playlist.id] = playlist;
+        setPlaylistsCache(newCache);
         // If the playlist isn't already selected
-        let newSelectedPlaylists;
         if (!selectedPlaylists.map((p) => p.id).includes(playlist.id)) {
-            newSelectedPlaylists = [...selectedPlaylists, playlist]
-            setSelectedPlaylists(newSelectedPlaylists);
-        // Tell user the playlist has already been added
+            setSelectedPlaylists([...selectedPlaylists, playlist]);
+        // Otherwise, tell user the playlist has already been added
         } else {
             alert("Playlist already added!") // TODO: replace with better notification 
         }

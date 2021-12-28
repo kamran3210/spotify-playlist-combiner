@@ -1,6 +1,6 @@
 import { XIcon } from "@heroicons/react/outline";
 import { useRecoilState } from "recoil"
-import { selectedPlaylistsState } from "../../atoms/selectedPlaylistsAtom";
+import { selectedPlaylistsState } from "../../atoms/playlistsAtom";
 
 function SelectedPlaylists({ perPage }) {
     const libraryHeight = 3.125 * perPage - 0.125;

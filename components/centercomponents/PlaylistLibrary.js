@@ -2,54 +2,69 @@ import { useSession } from "next-auth/react";
 import useSpotify from "../../hooks/useSpotify";
 import { useEffect, useState } from "react"
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { selectedPlaylistsState } from "../../atoms/selectedPlaylistsAtom";
-import { playlistsTotalState } from "../../atoms/playlistsTotalAtom";
-import { pageState } from "../../atoms/pageAtom";
+import { selectedPlaylistsState, playlistsTotalState, playlistsCacheState, pageState } from "../../atoms/playlistsAtom";
 
 function PlaylistLibrary({ perPage }) {
-    const libraryHeight = 3.125 * perPage - 0.125;
-
     const spotifyApi = useSpotify();
     const { data: session, status } = useSession();
 
     // Store playlists, # of playlists, page number as state
-    const [playlists, setPlaylists] = useState([]);
-    const setPlaylistsTotal = useSetRecoilState(playlistsTotalState); // Global state
-    const [page, setPage] = useRecoilState(pageState); // Global state
-
-    // When page is changed, update playlists
+    const [playlists, setPlaylists] = useState([]); // Store the current page's playlists
+    const [page, setPage] = useRecoilState(pageState); // Track the current page
+    const setPlaylistsTotal = useSetRecoilState(playlistsTotalState); // Required for page buttons logic
+    // When page is changed, update playlists library
     useEffect(() => {
         if (spotifyApi.getAccessToken()) {
             try {
+                // Get the new pages playlists
                 spotifyApi.getUserPlaylists({ limit: perPage, offset: perPage * page }).then((data) => {
+                    // Store them and update total playlists (in case new playlists are added)
                     setPlaylists(data.body.items);
                     setPlaylistsTotal(data.body.total);
                 });
             } catch (error) {
-                console.log(error)
+                console.log("Error whilst trying to change page!");
+                console.log(error);
                 setPage(0);
             }
         }
     }, [session, spotifyApi, page]);
 
-    // Global state
+    const [playlistsCache, setPlaylistsCache] = useRecoilState(playlistsCacheState);
     const [selectedPlaylists, setSelectedPlaylists] = useRecoilState(selectedPlaylistsState);
+    // Add or remove playlist to the selected playlists from the cache
     function togglePlaylist(playlist) {
         // If the playlist is already selected, remove it
-        let newSelectedPlaylists;
         if (selectedPlaylists.map((p) => p.id).includes(playlist.id)) {
-            newSelectedPlaylists = selectedPlaylists.filter((p) => p.id !== playlist.id);
+            setSelectedPlaylists(selectedPlaylists.filter((p) => p.id !== playlist.id));
         // Otherwise add it
         } else {
-            newSelectedPlaylists = [...selectedPlaylists, playlist]
+            // If the playlist is not in the cache, add it to the cache
+            if (!playlistsCache[playlist.id]) {
+                spotifyApi.getPlaylist(playlist.id).then((response) => {
+                    let newCache = {...playlistsCache};
+                    newCache[response.body.id] = response.body;
+                    setPlaylistsCache(newCache);
+                    // And then add it to the selected playlists
+                    setSelectedPlaylists([...selectedPlaylists, response.body]);
+                }).catch((error) => {
+                    console.log("Error whilst trying to add a playlist to the cache!")
+                    console.log(error)
+                });
+            // Otherwise, simply add it from the cahce
+            } else {
+                setSelectedPlaylists([...selectedPlaylists, playlistsCache[playlist.id]]);
+            }
         }
-        setSelectedPlaylists(newSelectedPlaylists);
-        
     }
 
+    // Check if a playlist is selected, used for colouring buttons
     function isSelected(playlist) {
         return selectedPlaylists.map((p) => p.id).includes(playlist.id)
     }
+    
+    // Height of playlist library in rem
+    const libraryHeight = 3.125 * perPage - 0.125; 
 
     return (
             // List of playlists
