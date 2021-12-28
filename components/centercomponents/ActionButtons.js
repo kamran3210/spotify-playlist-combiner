@@ -1,5 +1,3 @@
-import { useRecoilState } from "recoil";
-import { selectedActionState } from "../../atoms/selectedActionAtom";
 import Popper from "./Popper";
 import SongCount from "./SongCount";
 
@@ -32,6 +30,7 @@ function ActionButtons() {
 
     return (
         <div className="flex max-w-[66.6%]">
+            {/* Action buttons for each set operation*/}
             <div className="flex bg-gray-800 rounded-lg shadow-lg h-10">
 
                 {actions.map((action) => (
@@ -41,7 +40,10 @@ function ActionButtons() {
             </div>
 
             <div className="flex bg-gray-800 rounded-lg shadow-lg min-h-10 ml-5">
-                <SongCount />
+                <div className="px-3 flex items-center justify-center">
+                    <p>Songs: &nbsp; <SongCount /></p>
+                </div>
+                
                 <button className={
                     "px-3 flex items-center justify-center hover:bg-blue-600 cursor-pointer hover:text-blue-200"
                     } >
