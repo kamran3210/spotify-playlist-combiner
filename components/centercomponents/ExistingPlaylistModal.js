@@ -30,7 +30,7 @@ export default function ExistingPlaylistModal({ perPage }) {
 			console.log("Error whilst trying to change page!");
 			console.log(error);
 		});
-	}, [session, spotifyApi, page]);
+	}, [session, spotifyApi, page, perPage]);
 
 	// Add songs to playlist
 	function addSongs() {
@@ -199,7 +199,7 @@ export default function ExistingPlaylistModal({ perPage }) {
 												checked={ignoreDuplicatesChecked}
 												className="mr-2"
 												onChange={() => setignoreDuplicatesChecked(!ignoreDuplicatesChecked)} />
-											Don't add duplicate songs
+											Don&apos;t add duplicate songs
 										</span>
 
 										<button

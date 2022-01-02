@@ -29,7 +29,7 @@ function PlaylistLibrary({ perPage }) {
                 setPage(0);
             }
         }
-    }, [session, spotifyApi, page]);
+    }, [session, spotifyApi, page, perPage, setPage, setPlaylistsTotal]);
 
     const [playlistsCache, setPlaylistsCache] = useRecoilState(playlistsCacheState);
     const [selectedPlaylists, setSelectedPlaylists] = useRecoilState(selectedPlaylistsState);
