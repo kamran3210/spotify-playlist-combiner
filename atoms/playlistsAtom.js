@@ -38,9 +38,10 @@ export const mergedPlaylistState = selector({
         const action = get(selectedActionState);
         const playlists = get(selectedPlaylistsState);
 
-        let trackSets = playlists.map((p) => 
-            new Set(p.tracks.items.map((i) => i.track.name)) // TEMPORARY: just the name, easier to read
-        );
+        let trackSets = playlists.map((p) => (
+            new Set(p.tracks.items.map((i) => i.track.id))
+        ));
+
         switch (action) {
             case 3:
                 return symmetricDifference(trackSets);

@@ -52,8 +52,6 @@ function Center() {
                         </div>
                     </div>
                 </div>
-
-                <Popper />
                 
             </div>
         );

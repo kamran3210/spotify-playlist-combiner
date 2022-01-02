@@ -1,5 +1,8 @@
+import { useRecoilValue } from "recoil";
+import { mergedPlaylistState } from "../../atoms/playlistsAtom";
+import ExistingPlaylistModal from "./ExistingPlaylistModal";
+import NewPlaylistModal from "./NewPlaylistModal";
 import Popper from "./Popper";
-import SongCount from "./SongCount";
 
 const actions = [
     {
@@ -26,7 +29,7 @@ const actions = [
 
 function ActionButtons() {
 
-    
+    const mergedSet = useRecoilValue(mergedPlaylistState);
 
     return (
         <div className="flex max-w-[66.6%]">
@@ -41,19 +44,12 @@ function ActionButtons() {
 
             <div className="flex bg-gray-800 rounded-lg shadow-lg min-h-10 ml-5">
                 <div className="px-3 flex items-center justify-center">
-                    <p>Songs: &nbsp; <SongCount /></p>
+                    <p>Songs: {mergedSet.size}</p>
                 </div>
                 
-                <button className={
-                    "px-3 flex items-center justify-center hover:bg-blue-600 cursor-pointer hover:text-blue-200"
-                    } >
-                    Add to existing playlist
-                </button>
-                <button className={
-                    "px-3 flex items-center justify-center hover:bg-blue-600 cursor-pointer hover:text-blue-200"
-                    } >
-                    Create new playlist
-                </button>
+                <ExistingPlaylistModal perPage={10} />
+                
+                <NewPlaylistModal />
             </div>
         </div>
         
