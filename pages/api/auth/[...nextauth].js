@@ -22,7 +22,7 @@ async function refreshAccessToken(token) {
         };
 
     } catch (error) {
-        console.log("Error!")
+        console.log("Error whilst trying to refresh access token!")
         console.log(error);
         return {
             ...token,

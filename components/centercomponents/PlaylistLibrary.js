@@ -3,6 +3,7 @@ import useSpotify from "../../hooks/useSpotify";
 import { useEffect, useState } from "react"
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { selectedPlaylistsState, playlistsTotalState, playlistsCacheState, pageState } from "../../atoms/playlistsAtom";
+import { getAllSongsInPlaylist } from "../../lib/getAllSongsInPlaylist";
 
 function PlaylistLibrary({ perPage }) {
     const spotifyApi = useSpotify();
@@ -28,7 +29,7 @@ function PlaylistLibrary({ perPage }) {
                 setPage(0);
             }
         }
-    }, [session, spotifyApi, page]);
+    }, [session, spotifyApi, page, perPage, setPage, setPlaylistsTotal]);
 
     const [playlistsCache, setPlaylistsCache] = useRecoilState(playlistsCacheState);
     const [selectedPlaylists, setSelectedPlaylists] = useRecoilState(selectedPlaylistsState);
@@ -41,14 +42,14 @@ function PlaylistLibrary({ perPage }) {
         } else {
             // If the playlist is not in the cache, add it to the cache
             if (!playlistsCache[playlist.id]) {
-                spotifyApi.getPlaylist(playlist.id).then((response) => {
+                getAllSongsInPlaylist(playlist.id, spotifyApi).then((p) => {
                     let newCache = {...playlistsCache};
-                    newCache[response.body.id] = response.body;
+                    newCache[p.id] = p;
                     setPlaylistsCache(newCache);
                     // And then add it to the selected playlists
-                    setSelectedPlaylists([...selectedPlaylists, response.body]);
+                    setSelectedPlaylists([...selectedPlaylists, p]);
                 }).catch((error) => {
-                    console.log("Error whilst trying to add a playlist to the cache!")
+                    console.log("Error whilst trying to get all songs in playlist whilst toggling playlist!");
                     console.log(error)
                 });
             // Otherwise, simply add it from the cahce
