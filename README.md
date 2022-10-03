@@ -1,4 +1,11 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Combine your playlists using set opeerations! (In development)
+
+Almost fully functional
+
+- Log in times out after certain time period but does not refresh session 
+- Create new playlist does not function yet
+- Add to existing playlist button functions but some UI does not update once playlist updated
+- Mobile UI may be buggy and hard to use
 
 ## Getting Started
 
