@@ -1,4 +1,4 @@
-Combine your playlists using set opeerations! (In development)
+Combine your playlists using set opeerations!
 
 No longer functional due to Spotify API changes. Abandoned project.
 
